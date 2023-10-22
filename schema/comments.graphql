@@ -1,0 +1,33 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Comment {
+  id: ID
+  text: String
+  objectId: String
+  userId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  attachments: [String]
+  type: String
+  active: Boolean
+  user: User
+  role: Role
+  updatedBy: User
+  createdBy: User
+  deletedBy: User
+}
+
+type GetCommentsPayload {
+  data: [Comment]
+  count: Int
+}
+
+type Query {
+  getComments(where: JSON, take: Int, skip: Int, orderBy: JSON): GetCommentsPayload
+}
+
+type Mutation {
+  createUpdateComment(data: JSON): Comment
+}

@@ -1,0 +1,149 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Assessmentsection {
+  id: ID
+  assessmentId: ID
+  createdAt: DateTime
+  entryPageDescription: String
+  hasEntryPage: Boolean
+  index: String
+  popupContent: String
+  ageRange: String
+  active: Boolean
+  showPopup: Boolean
+  title: String
+  services: [String]
+  categories: [String]
+  selection: String
+  infoFormContent: String
+  isInforFromRequired: Boolean
+  doesInfoFormHasPopup: Boolean
+  infoFormPopupContent: String
+  questions: [JSON]
+}
+type Assessmentsections {
+  data: [Assessmentsection]
+  message: String
+}
+
+type Assessment {
+  id: ID
+  createdAt: DateTime
+  description: String
+  entryPage: Boolean
+  index: String
+  adminDescription: String
+  clientDescription: String
+  nextAssessment: ID
+  status: String
+  category: [String]
+  title: String
+  updatedAt: DateTime
+  active: Boolean
+  numSections: Int
+  sections: [Assessmentsection]
+  categories: [Category]
+}
+
+type AssessmentAnswers {
+  id: ID
+  filter: JSON
+  index: String
+  ageRange: String
+  questionId: String
+  text: String
+  value: Int
+}
+
+type AssessmentQuestions {
+  id: ID
+  assessmentId: String
+  question: String
+  answers: [AssessmentAnswers]
+  ageRange: String
+  categoryId: String
+  serviceId: String
+}
+
+type CompletedAssessment {
+  id: ID
+  answers: [JSON]
+  matchedClinicians: JSON
+  serviceId: JSON
+  serviceCategory: JSON
+  clientTypeIndex: String
+  assessmentId: JSON
+  clientId: String
+  createdAt: DateTime
+  riskScore: String
+  updatedAt: DateTime
+  section: JSON
+  additionalInfo: String
+}
+
+type GetAssessmentsPayload {
+  data: [Assessment]
+  count: Int
+}
+
+type GetAssessmentAnswersPayload {
+  data: [AssessmentAnswers]
+  count: Int
+}
+
+type GetAssessmentQuestionsPayload {
+  data: [AssessmentQuestions]
+  count: Int
+}
+
+type GetCompletedAssessmentsPayload {
+  data: [CompletedAssessment]
+  count: Int
+}
+
+type GetAssessmentSectionPayload {
+  data: [Assessmentsection]
+  count: Int
+}
+
+type Query {
+  getAssessments(where: JSON, take: Int, skip: Int, orderBy: JSON): GetAssessmentsPayload
+  getAssessmentAnswers(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetAssessmentAnswersPayload
+  getAssessmentQuestions(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetAssessmentQuestionsPayload
+  getCompletedAssessments(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetCompletedAssessmentsPayload
+  getAssessmentSections(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetAssessmentSectionPayload
+}
+
+type Mutation {
+  createUpdateAssessmentSection(data: JSON): Assessmentsection
+  createUpdateAssessmentSections(data: JSON): Assessmentsections
+  createUpdateAssessment(data: JSON): Assessment
+  createUpdateAssessmentQuestions(data: JSON): AssessmentQuestions
+  createUpdateAssessmentAnswers(data: JSON): AssessmentAnswers
+  deleteSection(id: String): String
+  deleteQuestion(id: String): String
+  createUpdateCompletedAssessment(data: JSON): CompletedAssessment
+  deleteAssessment(id: String): String
+}

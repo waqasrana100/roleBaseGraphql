@@ -1,0 +1,56 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Service {
+  id: ID
+  createdAt: DateTime
+  description: String
+  duration: Int
+  serviceCode: String
+  status: String
+  type: String
+  updatedAt: DateTime
+  vat: Int
+  billable: Boolean
+  nabidh: Boolean
+  hasDuration: Boolean
+  waitlist: Boolean
+  buffureAfter: Int
+  buffureBefore: Int
+  maximumCapacity: Int
+  minimumCapacity: Int
+  categoryId: String
+  category: String
+  categoryName: String
+  cpt4code: String
+  cptDescription: String
+  longDescription: String
+  name: String
+  clientTypes: JSON
+  locations: [String]
+  treatmentPlans: JSON
+  subscribers: Int
+  resources: [String]
+  locationsData: [ClinicAddress]
+  categoryData: Category
+  assessments: JSON
+  clinicalNoteModules: JSON
+  invoiceDescription: String
+  allowedUsersToCrud: [String]
+  timeslotColor: String
+}
+
+type GetServicesPayload {
+  data: [Service]
+  count: Int
+}
+
+type Query {
+  getServices(where: JSON, take: Int, skip: Int, orderBy: JSON): GetServicesPayload
+}
+
+type Mutation {
+  createUpdateService(data: JSON): Service
+  deleteService(id: String): String
+}

@@ -1,0 +1,282 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Client {
+  id: ID
+  address: JSON
+  additionalAddresses: JSON
+  appointmentCancel: Int
+  appointmentCount: Int
+  avatar: String
+  chartId: String
+  clinicalStatus: String
+  clinicians: [String]
+  corporationId: String
+  createdAt: DateTime
+  dob: DateTime
+  email: String
+  emailVerified: Boolean
+  licenseNumber: String
+  licenseNumber: String
+  licenseExpireDate: DateTime
+  passportIssuedCountryCode: String
+  passportNumber: String
+  passportExpireDate: DateTime
+  emergencyContact: JSON
+  firstLogin: Boolean
+  firstName: String
+  gender: String
+  insurance: JSON
+  isVip: Boolean
+  idCopy: String
+  isResident: Boolean
+  isSocialLogin: Boolean
+  jobDescription: String
+  walletBalance: Float
+  lastName: String
+  maritalStatus: String
+  nationality: String
+  otp: Int
+  otpSentTime: DateTime
+  phoneNumber: String
+  phoneNumberVerified: Boolean
+  phoneType: String
+  riskScore: Int
+  secondaryEmail: String
+  signature: String
+  status: String
+  step: Int
+  uaeResident: Boolean
+  uid: String
+  updatedAt: DateTime
+  verify: Boolean
+  currentClinicianId: ID
+  callCode: String
+  licenseFrontUrl: String
+  licenseBackUrl: String
+  identityPageUrl: String
+  uaeVisaUrl: String
+  isMinor: Boolean
+  parentId: JSON
+  parent: [Client]
+  children: [Client]
+  appointmentCounts: JSON
+  consentForm: Consent
+  hasConsent: String
+  walletBalance: Float
+  autoEditWalletBalance: Boolean
+  totalInvoiced: Float
+  totalPaid: Float
+  legalGuardian: Boolean
+  guardianCourtDocument: String
+  guardianCourtDocumentDate: DateTime
+  relationship: String
+  livesWith: Boolean
+  financing: Boolean
+  clinicalNotesCount: Int
+  prescriptionsCount: Int
+  latestRisks: Risk
+  treatmentGoalsCount: Int
+  tags: JSON
+  proofOfIdentity: ProofOfIdentity
+  isClientBlocked: Boolean
+  blockMessage: String
+  totalCancelledAppointment: Int
+  isNewClient: Boolean
+  childCount: Int
+  verified: Boolean
+  waitlist: Int
+  unpaidBillings: Int
+}
+
+type Credit {
+  id: String
+  v: Int
+  amount: Int
+  clientId: String
+  createdAt: DateTime
+  logs: JSON
+  reason: String
+  updatedAt: DateTime
+}
+
+type Document {
+  id: ID
+  v: Int
+  backsideImage: String
+  clientId: String
+  createdAt: DateTime
+  type: String
+  updatedAt: DateTime
+  url: String
+  verificationDate: DateTime
+  verified: Boolean
+  verifiedBy: String
+}
+
+type Filter {
+  id: ID
+  v: Int
+  clientAgeGroup: String
+  clientStatus: String
+  clinicianId: String
+  createdAt: DateTime
+  filterName: String
+  paymentStatus: String
+  status: String
+  type: String
+  updatedAt: DateTime
+}
+
+type Note {
+  id: ID
+  appointmentId: String
+  billingId: String
+  clientId: String
+  serviceId: String
+  vitals: JSON
+  vitalsHistory: JSON
+  background: String
+  currentCircumstances: JSON
+  riskConsultation: JSON
+  diagnosis: [Diagnosis]
+  symptoms: [Symptom]
+  mentalState: JSON
+  createdAt: DateTime
+  createdBy: String
+  modifiedBy: String
+  summary: String
+  role: String
+  status: String
+  updatedAt: DateTime
+  interventions: JSON
+  prescriptions: [Prescription]
+  risks: Risk
+  treatmentGoals: JSON
+  eatingDisorderTriage: JSON
+  isCompleted: Boolean
+  allergies: [JSON]
+  clinician: JSON
+}
+
+type ProofOfAddress {
+  id: ID
+  v: Int
+  address1: String
+  address2: String
+  city: String
+  clientId: String
+  country: JSON
+  createdAt: DateTime
+  documentId: String
+  documentType: String
+  firstName: String
+  lastName: String
+  state: JSON
+  updatedAt: DateTime
+  verified: Boolean
+  zip: String
+}
+
+type ProofOfIdentity {
+  id: ID
+  licenseFrontUrl: String
+  licenseBackUrl: String
+  identityPageUrl: String
+  uaeVisaUrl: String
+  clientId: String
+  createdAt: DateTime
+  documentId: String
+  passportIssuingCountry: String
+  documentType: String
+  expiryDate: DateTime
+  passportExpireDate: DateTime
+  issueDate: DateTime
+  verified: Boolean
+  isResident: Boolean
+  updatedAt: DateTime
+  reasonForCancel: String
+}
+
+type ClientBlock {
+  id: String
+  email: String
+  message: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GetClientsPayload {
+  data: [Client]
+  count: Int
+}
+
+type GetCreditsPayload {
+  data: [Credit]
+  count: Int
+}
+
+type GetDocumentsPayload {
+  data: [Document]
+  count: Int
+}
+
+type GetFiltersPayload {
+  data: [Filter]
+  count: Int
+}
+
+type GetNotesPayload {
+  data: [Note]
+  count: Int
+}
+
+type GetProofOfAddressesPayload {
+  data: [ProofOfAddress]
+  count: Int
+}
+
+type GetProofOfIdentityPayload {
+  data: [ProofOfIdentity]
+  count: Int
+}
+
+type ClientBlockPayload {
+  data: [ClientBlock]
+  count: Int
+}
+
+type Query {
+  getClients(where: JSON, take: Int, skip: Int, orderBy: JSON): GetClientsPayload
+  getClient(uid: String, id: String): Client
+  getCredits(where: JSON, take: Int, skip: Int, orderBy: JSON): GetCreditsPayload
+  getDocuments(where: JSON, take: Int, skip: Int, orderBy: JSON): GetDocumentsPayload
+  getFilters(where: JSON, take: Int, skip: Int, orderBy: JSON): GetFiltersPayload
+  getNotes(where: JSON, take: Int, skip: Int, orderBy: JSON): GetNotesPayload
+  getProofOfAddresses(where: JSON, take: Int, skip: Int, orderBy: JSON): GetProofOfAddressesPayload
+  getProofOfIdentity(where: JSON, take: Int, skip: Int, orderBy: JSON): GetProofOfIdentityPayload
+  loginClient(where: JSON): Client
+  verifyOTP(uid: String, verificationType: String, otp: String): String
+  resendOTP(uid: String, verificationMode: String): String
+  verifyClientOTP(id: String, otp: String): String
+  resendClientOTP(
+    verificationMode: String
+    email: String
+    phoneNumber: String
+    clientId: String
+    callCode: String
+  ): String
+  getClientBlocks(where: JSON, take: Int, skip: Int, orderBy: JSON): ClientBlockPayload
+}
+
+type Mutation {
+  createUpdateClient(data: JSON): Client
+  signUpClient(data: JSON): Client
+  signUpFire(where: JSON): Client
+  createUpdateNote(data: JSON): Note
+  deleteClient(id: String): String
+  deleteClientBlock(id: String): String
+  createUpdateProofOfIdentity(data: JSON): ProofOfIdentity
+  createUpdateClientBlock(data: JSON): ClientBlock
+}

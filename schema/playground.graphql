@@ -1,0 +1,5 @@
+scalar JSON
+
+type Query {
+  play(args: JSON): JSON
+}

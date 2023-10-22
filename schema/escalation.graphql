@@ -1,0 +1,35 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Escalation {
+  id: ID
+  teamId: String
+  cliniciansId: JSON
+  clinicians: [User]
+  groupType: String
+  status: String
+  source: String
+  sourceId: String
+  team: CustomString
+  reason: String
+  additionalInfo: String
+  escalatedBy: User
+  resolvedBy: User
+  openedBy: User
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GetEscalationsPayload {
+  data: [Escalation]
+  count: Int
+}
+
+type Query {
+  getEscalations(where: JSON, take: Int, skip: Int, orderBy: JSON): GetEscalationsPayload
+}
+
+type Mutation {
+  createUpdateEscalation(data: JSON): Escalation
+}

@@ -1,0 +1,168 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+directive @hasPermission(permission: String!) on FIELD_DEFINITION
+
+type Appointment {
+  id: ID
+  chartId: String
+  totalPaid: Int
+  clinicianId: String
+  clinician: User
+  clientId: [String]
+  clients: [Client]
+  corporationId: String
+  startTime: DateTime
+  status: String
+  serviceId: String
+  locationId: String
+  duration: Int
+  clientType: String
+  clientStatus: String
+  amount: Float
+  location: ClinicAddress
+  service: Service
+  createdAt: DateTime
+  billingId: String
+  billingChartId: String
+  billingStatus: String
+  invoiceId: String
+  checkedIn: Boolean
+  sessionActive: Boolean
+  paymentStatus: String
+  clinicalNoteId: String
+  penalty: String
+  virtualLink: String
+  type: String
+  parentAppointmentId: String
+  serviceDurationIndex: String
+  cancelledOnClientRequest: Boolean
+  matchedClinicians: [User]
+  completedAssessmentId: String
+  waitlistRequestStatus: String
+  waitlistBeingOffered: Boolean
+  totalOffersRejected: Int
+  hygieneAssignDate: DateTime
+  waitlistEscalateReason: String
+  waitlistEscalateAddInfo: String
+  waitlistRequestEscalated: Boolean
+  referredById: String
+  referredBy: User
+  referralId: String
+  waitlistRequestType: String
+  referralMatchedClinicians: [String]
+  referralMatchedCliniciansData: JSON
+  referralAdditionalInfo: String
+  referralClusterData: AssessmentQuestions
+  referralConcernData: AssessmentAnswers
+  referralRiskScore: String
+  referralUrgent: Boolean
+  offerStatus: String
+  waitlistOfferDate: DateTime
+  sortingPoints: Float
+  cancellingDate: DateTime
+  reasonForCancel: String
+  sessionStartTime: DateTime
+  cancelledBy: String
+  rescheduledAppointmentId: String
+  rescheduledAppointmentChartId: String
+  outOfClinicAddress: String
+  serviceFeeMultiplier: Float
+  additionalDuration: Int
+  reschedulingDate: DateTime
+  additionInformation: String
+}
+
+type ScreeningAnswer {
+  section: Assessmentsection
+  client: Client
+  QA: [QuestionAnswers]
+}
+
+type GetScreeningAnswerPayload {
+  data: [ScreeningAnswer]
+  count: Int
+}
+
+type QuestionAnswers {
+  ques: AssessmentQuestions
+  ans: AssessmentAnswers
+}
+
+type AppointmentOffer {
+  id: String
+  waitlistRequests: [Appointment]
+  assignedClinician: User
+  serviceCategoryId: String
+  serviceCategory: Category
+  status: String
+  duration: Int
+  locationId: String
+  location: ClinicAddress
+  startTime: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Referral {
+  id: String
+  matchedClinicians: String
+  matchedCliniciansData: JSON
+  clientId: [String]
+  additionalInfo: String
+  concernId: String
+  clusterId: String
+  referredById: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Client {
+  id: ID!
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  dob: DateTime
+  email: String
+  corporationId: String
+}
+
+type Penaltypolicy {
+  id: ID
+  totalCancellation: Int
+  totalResetSession: Int
+  percentage: Float
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GetAppointmentsPayload {
+  data: [Appointment]
+  count: Int
+}
+
+type GetAppointmentOffersPayload {
+  data: [AppointmentOffer]
+  count: Int
+}
+
+type GetPenaltyPolicyPayload {
+  data: [Penaltypolicy]
+  count: Int
+}
+
+type ReferralCliniciansPayload {
+  data: [User]
+  count: Int
+}
+
+type Query {
+  getAppointments(where: JSON, take: Int, skip: Int, orderBy: JSON): GetAppointmentsPayload
+  getPenaltyPolicy(where: JSON, take: Int, skip: Int, orderBy: JSON): GetPenaltyPolicyPayload
+  getPenaltyResetSession(data: JSON): Int
+}
+
+type Mutation {
+  createUpdateAppointment(data: JSON): Appointment
+}

@@ -1,0 +1,31 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Template {
+  id: ID
+  body: String
+  title: String
+  type: String
+  communicationType: String
+  subject: String
+  attachments: [String]
+  createdAt: DateTime
+  categoryData: Category
+  categoryId: String
+}
+
+type GetTemplatePayload {
+  data: [Template]
+  count: Int
+}
+
+type Query {
+  getTemplates(where: JSON, take: Int, skip: Int, orderBy: JSON): GetTemplatePayload
+  testTemplate(id: String, email: String): String
+}
+
+type Mutation {
+  createUpdateTemplate(data: JSON): Template
+  deleteTemplate(id: String): String
+}

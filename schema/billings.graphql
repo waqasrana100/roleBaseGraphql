@@ -1,0 +1,111 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Billing {
+  id: ID
+  locationId: String
+  amount: Float
+  appointmentId: String
+  category: String
+  chartId: String
+  clinicianId: ID
+  clientId: [ID]
+  clients: [Client]
+  appointment: Appointment
+  createdAt: DateTime
+  discount: Int
+  dueDate: DateTime
+  emails: [String]
+  extraFees: JSON
+  generatedType: String
+  logs: [Log]
+  refundAmount: Int
+  services: JSON
+  splited: Boolean
+  splitedInvoice: Boolean
+  sponsorEmail: String
+  status: String
+  totalPaid: Float
+  totalAmount: Float
+  type: String
+  updatedAt: DateTime
+  clinician: User
+  location: ClinicAddress
+  serviceId: ID
+  servicesData: [Service]
+}
+
+type Payment {
+  id: ID
+  amount: Float
+  batchId: String
+  clientId: String
+  billingId: ID
+  createdAt: DateTime
+  entity: String
+  entityId: String
+  metaData: JSON
+  mode: String
+  p_id: String
+  status: String
+  updatedAt: DateTime
+}
+
+type Log {
+  id: ID
+  message: String
+  clientId: String
+  objectType: String
+  objectId: String
+  appointmentId: String
+  updatedBy: String
+  updatingUser: User
+  updatedAt: DateTime
+  type: String
+  createdAt: DateTime
+  appointment: Appointment
+  appointmentCancelReason: String
+  specialPrice: Specialprice
+  staffMembersEmailed: [User]
+}
+
+type GetBillingsPayload {
+  data: [Billing]
+  count: Int
+}
+
+type GetLogsPayload {
+  data: [Log]
+  count: Int
+}
+
+type GetPaymentsPayload {
+  data: [Payment]
+  count: Int
+}
+
+type PaytabsURL {
+  url: String
+  paymentId: String
+}
+
+type PaymentStatus {
+  status: String
+}
+
+type Query {
+  getBillings(where: JSON, take: Int, skip: Int, orderBy: JSON): GetBillingsPayload
+  getPayments(where: JSON, take: Int, skip: Int, orderBy: JSON): GetPaymentsPayload
+  getLogs(where: JSON, take: Int, skip: Int, orderBy: JSON): GetLogsPayload
+  checkPaymentStatus(paymentId: String): Payment
+}
+
+type Mutation {
+  createUpdateBilling(data: JSON): Billing
+  createUpdatePayment(data: JSON): Payment
+  createLogs(data: JSON): Log
+  payUsingWallet(data: JSON): JSON
+  sendInvoiceReminder(data: JSON): String
+  createPaytabsUrl(data: JSON): PaytabsURL
+}

@@ -1,0 +1,9 @@
+scalar JSON
+
+type GetReportPayload {
+  data: [JSON]
+}
+
+type Query {
+  getReport(report: String, startDate: String, endDate: String): GetReportPayload
+}

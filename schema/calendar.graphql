@@ -1,0 +1,31 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type CalendarSlots {
+  id: ID
+  clinicianId: String
+  createdAt: DateTime
+  description: String
+  endTime: DateTime
+  startTime: DateTime
+  type: String
+  updatedAt: DateTime
+  recurringGroupId: String
+}
+
+type GetCalendarSlotsPayload {
+  data: [CalendarSlots]
+  count: Int
+}
+
+type Query {
+  getCalendarSlots(where: JSON, take: Int, skip: Int, orderBy: JSON): GetCalendarSlotsPayload
+  getSchedule(data: JSON): JSON
+}
+
+type Mutation {
+  createUpdateCalendarSlots(data: JSON): CalendarSlots
+  createUpdateRepeatingCalendarSlots(data: JSON): [CalendarSlots]
+  deleteCalendarSlots(data: JSON): JSON
+}

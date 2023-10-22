@@ -1,0 +1,146 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type ClinicAddress {
+  id: ID
+  address1: String
+  address2: String
+  city: String
+  country: JSON
+  countryCode: String
+  stateCode: String
+  createdAt: DateTime
+  uniqueId: String
+  officeNumber: String
+  state: JSON
+  title: String
+  zip: String
+  inClinic: Boolean
+  googleMapAddress: String
+}
+
+type ClinicianSpecialities {
+  id: String
+  description: String
+  filter: JSON
+  match: String
+}
+
+type ClinicianSpecialityMap {
+  id: ID
+  v: Int
+  clinicianId: String
+  createdAt: DateTime
+  specialities: JSON
+  updatedAt: DateTime
+}
+
+type Consent {
+  id: ID
+  clientId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  signedAt: DateTime
+  sign: String
+  childId: String
+  consentForm: String
+  isForMinor: Boolean
+  client: Client
+  clinician: User
+  isDeleted: Boolean
+  consentFormUrl: String
+  agreeTermsAndConditions: Boolean
+  shareWithNabidh: Boolean
+  parent: Client
+  method: String
+}
+type TreatmentPlans {
+  data: [TreatmentPlan]
+  message: String
+}
+type TreatmentPlan {
+  id: ID
+  title: String
+  uniqueId: String
+  createdAt: DateTime
+  category: String
+  index: Int
+}
+
+type Intervention {
+  id: ID
+  type: String
+  code: Int
+  typeCode: String
+  title: String
+  global: Boolean
+  index: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GetClinicAddressesPayload {
+  data: [ClinicAddress]
+  count: Int
+}
+
+type GetTreatmentPlansPayload {
+  data: [TreatmentPlan]
+  count: Int
+}
+
+type GetInterventionPayload {
+  data: [Intervention]
+  count: Int
+}
+
+type GetClinicianSpecialtiesPayload {
+  data: [ClinicianSpecialities]
+  count: Int
+}
+
+type GetClinicianSpecialityMapsPayload {
+  data: [ClinicianSpecialityMap]
+  count: Int
+}
+
+type GetConsentsPayload {
+  data: [Consent]
+  count: Int
+}
+
+type Query {
+  getClinicAddresses(where: JSON, take: Int, skip: Int, orderBy: JSON): GetClinicAddressesPayload
+  getClinicianSpecialties(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetClinicianSpecialtiesPayload
+  getClinicianSpecialityMaps(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetClinicianSpecialityMapsPayload
+  getConsents(where: JSON, take: Int, skip: Int, orderBy: JSON): GetConsentsPayload
+  getTreatmentPlans(where: JSON, take: Int, skip: Int, orderBy: JSON): GetTreatmentPlansPayload
+  getInterventions(where: JSON, take: Int, skip: Int, orderBy: JSON): GetInterventionPayload
+  getConsent(clientId: String): Consent
+}
+
+type Mutation {
+  createUpdateClinicAddress(data: JSON): ClinicAddress
+  createUpdateConsent(data: JSON): Consent
+  createUpdateTreatmentPlan(data: JSON): TreatmentPlan
+  createUpdateTreatmentPlans(data: JSON): TreatmentPlans
+  createUpdateIntervention(data: JSON): Intervention
+  createUpdateInterventions(data: JSON): TreatmentPlans
+  signConsent(data: JSON): Consent
+  deleteClinicAddress(id: String): String
+  deleteConsent(id: String): String
+  sendConsentFormReminder(data: JSON): String
+  deleteTreatmentPlan(id: String): String
+  deleteIntervention(id: String): String
+}

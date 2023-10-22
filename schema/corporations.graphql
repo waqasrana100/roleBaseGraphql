@@ -1,0 +1,106 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type CorporationAddress {
+  id: ID
+  v: Int
+  address1: String
+  address2: String
+  city: String
+  corporationId: String
+  country: JSON
+  createdAt: DateTime
+  email: String
+  phoneNumber: String
+  state: String
+  updatedAt: DateTime
+  zip: String
+}
+
+type CorporationClinician {
+  id: ID
+  v: Int
+  clinicianId: String
+  corporationId: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CorporationContact {
+  id: ID
+  v: Int
+  addressId: String
+  corporationId: String
+  createdAt: DateTime
+  designation: String
+  email: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  phoneType: String
+  updatedAt: DateTime
+}
+
+type Corporation {
+  id: ID
+  code: String
+  companyType: String
+  createdAt: DateTime
+  description: String
+  email: String
+  logo: String
+  name: String
+  address: JSON
+  contacts: JSON
+  services: JSON
+  numberofClients: Int
+  updatedAt: DateTime
+}
+
+type GetCorporationAddressesPayload {
+  data: [CorporationAddress]
+  count: Int
+}
+
+type GetCorporationCliniciansPayload {
+  data: [CorporationClinician]
+  count: Int
+}
+
+type GetCorporationContactsPayload {
+  data: [CorporationContact]
+  count: Int
+}
+
+type GetCorporationsPayload {
+  data: [Corporation]
+  count: Int
+}
+
+type Query {
+  getCorporationAddresses(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetCorporationAddressesPayload
+  getCorporationClinicians(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetCorporationCliniciansPayload
+  getCorporationContacts(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+  ): GetCorporationContactsPayload
+  getCorporations(where: JSON, take: Int, skip: Int, orderBy: JSON): GetCorporationsPayload
+}
+
+type Mutation {
+  createUpdateCorporation(data: JSON): Corporation
+  deleteCorporation(id: String): String
+}

@@ -1,0 +1,23 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Trigger {
+  id: ID
+  active: Boolean
+  categories: [EventCategory]
+  createdAt: DateTime
+  services: JSON
+  servicesData: [Service]
+  triggers: JSON
+  type: String
+}
+
+type GetTriggersPayload {
+  data: [Trigger]
+  count: Int
+}
+
+type Query {
+  getTriggers(where: JSON, take: Int, skip: Int, orderBy: JSON): GetTriggersPayload
+}

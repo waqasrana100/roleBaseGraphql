@@ -1,0 +1,37 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Specialprice {
+  id: ID
+  cost: Float
+  costType: String
+  appointmentType: String
+  billingId: String
+  clientId: [String]
+  clinicianId: String
+  clients: [Client]
+  clinician: User
+  serviceId: String
+  service: Service
+  serviceDurationIndex: String
+  createdAt: DateTime
+  expirationDate: DateTime
+  numberOfSessions: Int
+  numberOfUsedSession: Int
+  updatedAt: DateTime
+}
+
+type GetSpecialPricesPayload {
+  data: [Specialprice]
+  count: Int
+}
+
+type Query {
+  getSpecialPrices(where: JSON, take: Int, skip: Int, orderBy: JSON): GetSpecialPricesPayload
+}
+
+type Mutation {
+  createUpdateSpecialPrice(data: JSON): Specialprice
+  deleteSpecialPrice(id: String): String
+}

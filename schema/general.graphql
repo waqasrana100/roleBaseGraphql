@@ -1,0 +1,124 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Onboarding {
+  id: ID
+  v: Int
+  btn: String
+  createdAt: DateTime
+  description: String
+  image: String
+  title: String
+  updatedAt: DateTime
+}
+
+type Relationship {
+  id: ID
+  minorId: ID
+  adultId: ID
+  relationship: String
+  financing: Boolean
+  livesWith: Boolean
+  legalGuardian: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Role {
+  id: ID
+  createdAt: DateTime
+  role: String
+  active: Boolean
+}
+
+type Session {
+  id: ID
+  v: Int
+  createdAt: DateTime
+  token: String
+  updatedAt: DateTime
+  user: String
+}
+
+type SpecialityMap {
+  id: ID
+  v: Int
+  createdAt: DateTime
+  specialities: [String]
+  status: String
+  title: String
+  updatedAt: DateTime
+}
+
+type CustomString {
+  id: String
+  title: String
+  index: Int
+  description: String
+  category: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type UpdatedCustomStringsPayload {
+  data: [CustomString]
+  msg: String
+}
+
+type GetCustomStringPayload {
+  data: [CustomString]
+  count: Int
+}
+
+type GetOnboardingPayload {
+  data: [Onboarding]
+  count: Int
+}
+
+type GetRelationshipPayload {
+  data: [Relationship]
+  count: Int
+}
+
+type GetRolePayload {
+  data: [Role]
+  count: Int
+}
+
+type GetSessionPayload {
+  data: [Session]
+  count: Int
+}
+
+type GetSpecialityMapPayload {
+  data: [SpecialityMap]
+  count: Int
+}
+
+type Query {
+  getOnboarding(where: JSON, take: Int, skip: Int, orderBy: JSON): GetOnboardingPayload
+  getRelationship(where: JSON, take: Int, skip: Int, orderBy: JSON): GetRelationshipPayload
+  getRole(where: JSON, take: Int, skip: Int, orderBy: JSON): GetRolePayload
+  getSession(where: JSON, take: Int, skip: Int, orderBy: JSON): GetSessionPayload
+  getSpecialityMap(where: JSON, take: Int, skip: Int, orderBy: JSON): GetSpecialityMapPayload
+  getCustomString(where: JSON, take: Int, skip: Int, orderBy: JSON): GetCustomStringPayload
+  createLog(data: JSON): String
+  validateEmail(email: String, userType: String): Boolean
+  sendSMS(
+    phoneNumber: String
+    message: String
+    clientId: String
+    userId: String
+    extraData: JSON
+  ): String
+  getUtilData(key: String): JSON
+}
+
+type Mutation {
+  createUpdateRelationship(data: JSON): Relationship
+  createUpdateCustomString(data: JSON): CustomString
+  deleteCustomString(data: JSON): CustomString
+  createUpdateCustomStrings(data: JSON): UpdatedCustomStringsPayload
+  sendEmail(subject: String, message: String, email: String, extraData: JSON, file: JSON): String
+}

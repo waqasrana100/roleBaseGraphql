@@ -1,0 +1,24 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Resource {
+  id: ID
+  link: String
+  description: String
+  title: String
+}
+
+type GetResourcePayload {
+  data: [Resource]
+  count: Int
+}
+
+type Query {
+  getResources(where: JSON, take: Int, skip: Int, orderBy: JSON): GetResourcePayload
+}
+
+type Mutation {
+  createUpdateResource(data: JSON): Resource
+  deleteResource(id: String): String
+}

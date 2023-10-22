@@ -1,0 +1,18 @@
+type Configuration {
+  id: String
+  appointmentPenaltyResetSession: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GetConfigurationPayload {
+  data: Configuration
+}
+
+type Query {
+  getConfiguration(data: JSON): GetConfigurationPayload
+}
+
+type Mutation {
+  createupdateConfiguration(data: JSON): Configuration
+}

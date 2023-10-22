@@ -1,0 +1,124 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Event {
+  id: ID
+  title: String
+  startTime: DateTime
+  endTime: DateTime
+  date: DateTime
+  location: JSON
+  type: String
+  fee: Float
+  advancedPayment: Float
+  displayAddress: Boolean
+  isForChildren: Boolean
+  isWebinar: Boolean
+  totalSeats: Int
+  category: ID
+  isFree: Boolean
+  numberOfAttendees: Int
+  corporationId: ID
+  registrationStillOpen: Boolean
+  clinicians: [User]
+  metaKeywords: String
+  isParentsIncluded: Boolean
+  ageRange: JSON
+  subtitle: String
+  description: String
+  metaDescription: String
+  webinarLink: String
+  generalPDF: String
+  detailsOverviewPDF: String
+  eventFaqPDF: String
+  flyerImage: String
+  poster: String
+  age: String
+  categoryData: EventCategory
+}
+
+type EventCategory {
+  id: ID
+  status: String
+  title: String
+  numberOfEvents: Int
+  lastEvent: DateTime
+}
+
+type EventUser {
+  id: ID!
+  billingId: ID
+  status: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  eventId: ID
+  dob: DateTime
+  email: String
+  payment: Payment
+}
+
+type Trigger {
+  id: ID
+  active: Boolean
+  categories: [EventCategory]
+  triggers: JSON
+  type: String
+}
+
+type GetEventUserPayload {
+  eventUsers: [EventUser]
+  count: Int
+}
+
+type GetRSVPPayload {
+  users: [EventUser]
+  count: Int
+}
+
+type GetEventsPayload {
+  data: [Event]
+  count: Int
+}
+
+type GetEventCategoriesPayload {
+  data: [EventCategory]
+  count: Int
+}
+
+type GetEventTriggersPayload {
+  data: [Trigger]
+  count: Int
+}
+
+type GetCreateEvent {
+  clinicians: [User]
+  corporations: [Corporation]
+  categories: [EventCategory]
+  event: Event
+}
+
+type Query {
+  getEvents(where: JSON, take: Int, skip: Int, orderBy: JSON): GetEventsPayload
+  getCreateEvent(eventId: String): GetCreateEvent
+  getEventCategories(
+    where: JSON
+    take: Int
+    skip: Int
+    orderBy: JSON
+    onlyWithEvents: Boolean
+  ): GetEventCategoriesPayload
+  getEventTriggers(where: JSON, take: Int, skip: Int, orderBy: JSON): GetEventTriggersPayload
+  getEventUser(eventId: String): GetEventUserPayload
+  getRsvp(eventId: String, search: String, take: Int, skip: Int): GetRSVPPayload
+}
+
+type Mutation {
+  createUpdateEvent(event: JSON): Event
+  createUpdateEventCategory(category: JSON): EventCategory
+  createUpdateTrigger(data: JSON): Trigger
+  infoForFutureEvent(data: JSON): EventUser
+  eventRegistrationPayment(data: JSON): PaytabsURL
+  eventRegistrationWithoutPayment(data: JSON): String
+}

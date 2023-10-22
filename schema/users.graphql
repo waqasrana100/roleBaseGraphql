@@ -1,0 +1,105 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type User {
+  id: ID
+  acceptNewPatients: Boolean
+  active: Boolean
+  admin: String
+  appointmentSlotUnit: Int
+  autoSign: Boolean
+  avatar: String
+  bio: String
+  costPerUnit: Int
+  createdAt: DateTime
+  discipline: String
+  disciplineDescription: String
+  dob: DateTime
+  email: String
+  firstName: String
+  gender: String
+  lastName: String
+  newPatientToggle: Boolean
+  notes: String
+  patientAgeGroup: String
+  phoneNumber: String
+  phoneType: String
+  prefix: String
+  role: String
+  roleId: String
+  signature: String
+  seal: String
+  status: String
+  suffix: String
+  userName: String
+  userRole: String
+  verify: String
+  weeklyLimit: Int
+  callCode: String
+  concerns: JSON
+  risks: JSON
+  services: JSON
+  contactMethod: String
+  openSlots: Int
+  seniority: String
+  seniorityTitle: String
+  licenseExpiryDate: DateTime
+  startDate: DateTime
+  endDate: DateTime
+  licenseNumber: String
+  employementStatus: String
+  licensingBody: [String]
+  waitlist: Boolean
+  currentWaitlist: Boolean
+  locations: [String]
+  address: [String]
+  addresses: [ClinicAddress]
+  roleName: String
+  virtualLink: String
+  licenses: JSON
+  teams: JSON
+  sortingPriority: Int
+  instructions: String
+  defaultLocationId: String
+  defaultLocation: JSON
+}
+
+type UserTeam {
+  id: String
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GetUsersPayload {
+  data: [User]
+  count: Int
+}
+
+type GetTeamsPayload {
+  data: [UserTeam]
+  count: Int
+}
+
+type CompletedAssessment {
+  id: ID
+  matchedClinicians: JSON
+  serviceId: JSON
+}
+
+type Query {
+  getUsers(where: JSON, take: Int, skip: Int, orderBy: JSON): GetUsersPayload
+  getUserTeams(where: JSON, take: Int, skip: Int, orderBy: JSON): GetTeamsPayload
+  loginUser(where: JSON): User
+  getRecommended(data: JSON): [User]
+  getClientForDoctor(data: JSON): [Client]
+}
+
+type Mutation {
+  createUpdateUser(data: JSON): User
+  createUpdateUserTeam(data: JSON): UserTeam
+  deleteUserTeam(id: String): String
+  deleteUser(id: String): String
+  reRunMatchingProtocol(data: JSON): CompletedAssessment
+}

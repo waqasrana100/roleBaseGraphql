@@ -1,0 +1,28 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Category {
+  id: ID
+  index: Int
+  status: String
+  title: String
+  numberOfEvents: Int
+  lastEvent: DateTime
+  type: String
+}
+
+type GetCategoriesPayload {
+  data: [Category]
+  count: Int
+}
+
+type Query {
+  getCategories(where: JSON, take: Int, skip: Int, orderBy: JSON): GetCategoriesPayload
+}
+
+type Mutation {
+  createUpdateCategory(data: JSON): Category
+  createUpdateCategories(data: JSON): [Category]
+  deleteCategory(id: String): String
+}

@@ -1,0 +1,172 @@
+scalar JSON
+scalar DateTime
+scalar Upload
+
+type Medication {
+  id: ID
+  DDCCode: String
+  DDCGenericCode: String
+  MAH: String
+  v: Int
+  activeIngredient: String
+  agent: String
+  class: String
+  containerQuantity: String
+  containerUnit: String
+  createdAt: DateTime
+  dispenseMode: String
+  drugDecree: Int
+  genericCode: String
+  manufacturer: String
+  packName: String
+  packSize: String
+  productForm: String
+  quantityBase: String
+  quantityBaseUnit: String
+  serialNo: String
+  strength: String
+  strengthUnit: String
+  updatedAt: DateTime
+}
+
+type Diagnosis {
+  id: ID
+  code: String
+  title: String
+  primaryKey: String
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Symptom {
+  id: ID
+  group: String
+  order: Int
+  title: String
+  index: Int
+  frequency: String
+  updatedAt: String
+  createdAt: String
+}
+
+type MentalState {
+  id: ID
+  category: String
+  title: String
+  updatedAt: String
+  createdAt: String
+}
+
+type Allergy {
+  id: ID
+  code: String
+  title: String
+  updatedAt: String
+  createdAt: String
+}
+
+type PatientRecord {
+  id: ID
+  v: Int
+  appointmentId: String
+  clientId: String
+  createdAt: DateTime
+  diagnosis: [String]
+  notes: String
+  sessionCompleted: String
+  status: String
+  updatedAt: DateTime
+}
+
+type Prescription {
+  id: ID
+  active: Boolean
+  appointmentId: String
+  status: String
+  frequency: String
+  route: String
+  clientId: String
+  createdAt: DateTime
+  direction: String
+  dosage: String
+  medication: JSON
+  clinician: JSON
+  medicationPackName: String
+  medicationId: String
+  patientRecordId: String
+  refillAllowed: Int
+  refillRequest: Boolean
+  updatedAt: DateTime
+}
+
+type Risk {
+  id: ID
+  riskToSelfSuicide: String
+  riskToSelfHarm: String
+  riskToSelfOther: String
+  riskToOthers: String
+  riskFromOthers: String
+  riskToSelfSuicideNotes: String
+  riskToSelfHarmNotes: String
+  riskToSelfOtherNotes: String
+  riskToOthersNotes: String
+  riskFromOthersNotes: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GetMedicationsPayload {
+  data: [Medication]
+  count: Int
+}
+type GetPatientRecordsPayload {
+  data: [PatientRecord]
+  count: Int
+}
+
+type GetPrescriptionsPayload {
+  data: [Prescription]
+  count: Int
+}
+
+type GetDiagnosisPayload {
+  data: [Diagnosis]
+  count: Int
+}
+
+type GetSymptomsPayload {
+  data: [Symptom]
+  count: Int
+}
+
+type GetMentalStatesPayload {
+  data: [MentalState]
+  count: Int
+}
+
+type GetAllergiesPayload {
+  data: [Allergy]
+  count: Int
+}
+
+type Query {
+  getMedications(where: JSON, take: Int, skip: Int, orderBy: JSON): GetMedicationsPayload
+  getPatientRecords(where: JSON, take: Int, skip: Int, orderBy: JSON): GetPatientRecordsPayload
+  getPrescriptions(where: JSON, take: Int, skip: Int, orderBy: JSON): GetPrescriptionsPayload
+  getDiagnosis(where: JSON, take: Int, skip: Int, orderBy: JSON): GetDiagnosisPayload
+  getSymptoms(where: JSON, take: Int, skip: Int, orderBy: JSON): GetSymptomsPayload
+  getMentalStates(where: JSON, take: Int, skip: Int, orderBy: JSON): GetMentalStatesPayload
+  getAllergies(where: JSON, take: Int, skip: Int, orderBy: JSON): GetAllergiesPayload
+}
+
+type Mutation {
+  createUpdateDiagnosis(data: JSON): Diagnosis
+  createUpdateSymptom(data: JSON): Symptom
+  createUpdateSymptoms(data: JSON): Symptom
+  createUpdateMentalState(data: JSON): MentalState
+  createUpdateAllergy(data: JSON): Allergy
+  createUpdatePrescription(data: JSON): Prescription
+  deleteSymptom(id: String): String
+  deleteMentalState(id: String): String
+  deleteAllergy(id: String): String
+}
